@@ -1,0 +1,9 @@
+﻿A word about coding culture
+- one thing is correct or incorrect
+	- Code can work correctly or incorrectly
+- another this is as expected or unexpected
+	- Correct code may work in unexpected ways
+- General rule: DO not supriese fellow coders.
+
+
+Implement extension methods only to wrap infrastructural code which is never going to change.
