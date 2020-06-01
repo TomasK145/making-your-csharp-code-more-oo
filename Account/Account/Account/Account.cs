@@ -20,6 +20,10 @@ namespace Account
         // #6: Deposit 10, Freeze, Deposit 1 --> OnFreeze was called
         // #7: Deposit 10, Freeze, Deposit 1 --> IsFrozen == false
         // #8: Deposit 10, Deposit 1 --> OnUnfreeze was not called
+        // Test - after refactoring
+        // #1 (Interaction): Deposit was invoked on the State
+        // #2 (Behavior): Result of State.Deposit is new State
+        // ostatne testy v konkretnych implementaciach stavov
         public void Deposit(decimal amount)
         {
             this.State = this.State.Deposit(() => { this.Balance += amount; });           
@@ -31,6 +35,9 @@ namespace Account
         // #5: Deposit 10, Verify, Withdraw 1 --> Balance == 9
         // #9: Deposit 10, Verify, Freeze, Withdraw 1 --> OnUnfreeze was called
         // #10: Deposit 10, Verify, Freeze, Withdraw 1 --> IsFrozen == false
+        // Test - after refactoring
+        // #1 (Interaction): Withdraw was invoked on the State
+        // #2 (Behavior): Result of State.Withdraw is new State
         public void Withdraw(decimal amount)
         {
             this.State = this.State.Withdraw(() => { this.Balance -= amount; });

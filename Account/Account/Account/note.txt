@@ -7,6 +7,11 @@
 	- no more branching
 	- Runtime type of the state object replace branching
 	- Dynamic dispatch used to choose one implementation or the other 
+- benefits of State pattern:
+	- class that uses states becomes simple
+	- it can focus on its primary role
+	- other roles are delegated to concrete state classes
+	- each concrete class is simple
 
 Pohladom na State objektu "Account" mozno povedat ze jeho responsibilities su:
 	public decimal Balance { get; private set; }
@@ -26,3 +31,15 @@ Advice:
 - let the class do only one thing (a.k.a. Single Resposibility Principle - SRP)
 e.g. Account only takes care of the balane
 
+ Consequences of separated responsibilities:
+	- each class is doing one thing
+	- one new requirement means one new class will be added
+	- new requirement doesnt require an existing class to change
+
+Bad desing:
+	- a class which is doing everything itself
+	- this typically leads to if-then-else instructions everywhere
+
+Better design:
+	- move separate implementations to separate state classes
+	- substitute the state object to substitute implementation
