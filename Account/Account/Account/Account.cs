@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Account
 {
@@ -10,14 +8,15 @@ namespace Account
         public decimal Balance { get; private set; }
 
         private bool IsVerified { get; set; }
-        private bool IsClosed { get; set; }
-        private bool isFrozen { get; set; }
+        private bool IsClosed { get; set; } 
 
         private Action OnUnfreeze { get; }
+        private Action ManageUnfreezing { get; set; }
 
         public Account(Action onUnfreeze)
         {
             this.OnUnfreeze = onUnfreeze;
+            this.ManageUnfreezing = this.StayUnfrozen;
         }
 
         // Tests
@@ -31,11 +30,7 @@ namespace Account
             if (!this.IsVerified)
                 return;
 
-            if (this.isFrozen)
-            {
-                this.isFrozen = false;
-                this.OnUnfreeze();
-            }
+            this.ManageUnfreezing();
 
             // Deposit money
             this.Balance += amount;
@@ -53,11 +48,7 @@ namespace Account
                 return;
             if (!this.IsClosed)
                 return;
-            if (this.isFrozen)
-            {
-                this.isFrozen = false;
-                this.OnUnfreeze();
-            }
+            ManageUnfreezing();
 
             // Withdraw money
             this.Balance -= amount;
@@ -79,7 +70,34 @@ namespace Account
                 return;
             if (!this.IsVerified)
                 return;
-            this.isFrozen = true;
+            this.ManageUnfreezing = this.Unfreeze;
+        }
+
+        //private void ManageUnfreezing()
+        //{
+        //    // pouzit: Guard clause alebo full if-then-else
+        //    //if (!this.isFrozen) // Guard clause 
+        //    //    return;
+
+        //    if (this.IsFrozen)
+        //    {
+        //        this.Unfreeze();
+        //    }
+        //    else
+        //    {
+        //        StayFreezed();
+        //    }            
+        //}
+
+        private void Unfreeze()
+        {
+            this.OnUnfreeze();
+            this.ManageUnfreezing = this.StayUnfrozen;
+        }
+
+        private void StayUnfrozen()
+        {
+
         }
     }
 }
