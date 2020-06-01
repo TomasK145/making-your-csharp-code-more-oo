@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Account
 {
     // Frozen stav
-    class Frozen : IFreezable
+    class Frozen : IAccountState
     {
         private Action OnUnfreeze { get; }
 
@@ -14,18 +12,24 @@ namespace Account
             OnUnfreeze = onUnfreeze;
         }
 
-        public IFreezable Deposit()
+        public IAccountState Deposit(Action addToBalance)
         {
             this.OnUnfreeze();
-            return new Active();
+            addToBalance();
+            return new Active(this.OnUnfreeze);
         }
 
-        public IFreezable Freeze() => this;
+        public IAccountState Freeze() => this;
 
-        public IFreezable Withdraw()
+        public IAccountState Withdraw(Action subtractFromBalance)
         {
             this.OnUnfreeze();
-            return new Active();
+            subtractFromBalance();
+            return new Active(this.OnUnfreeze);
         }
+
+        public IAccountState HolderVerified() => this;
+
+        public IAccountState Close() => new Closed();
     }
 }

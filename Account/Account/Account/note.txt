@@ -4,3 +4,25 @@
 - consequences of the State Pattern:
 	- class doesnt have to represent its state explicitly anymore
 	- class doesnt have to manage state transition logic
+	- no more branching
+	- Runtime type of the state object replace branching
+	- Dynamic dispatch used to choose one implementation or the other 
+
+Pohladom na State objektu "Account" mozno povedat ze jeho responsibilities su:
+	public decimal Balance { get; private set; }
+	private bool IsVerified { get; set; }
+	private bool IsClosed { get; set; } 
+	- Account manazuje Balance
+	- manazuje Closed a Verified state
+
+Callback pattern applied:
+1. Do the custom work
+2. Call back
+
+INFO: 
+- dont keep money as Decimal --> introduce special Money class to keep amount and currency together
+
+Advice:
+- let the class do only one thing (a.k.a. Single Resposibility Principle - SRP)
+e.g. Account only takes care of the balane
+

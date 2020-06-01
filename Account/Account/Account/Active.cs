@@ -3,7 +3,7 @@
 namespace Account
 {
     // Aktivny stav
-    class Active : IFreezable
+    class Active : IAccountState
     {
         private Action OnUnfreeze { get; }
 
@@ -12,10 +12,22 @@ namespace Account
             OnUnfreeze = onUnfreeze;
         }
 
-        public IFreezable Deposit() => this;
+        public IAccountState Freeze() => new Frozen(this.OnUnfreeze);
 
-        public IFreezable Freeze() => new Frozen(this.OnUnfreeze);
+        public IAccountState Deposit(Action addToBalance)
+        {
+            addToBalance();
+            return this;
+        }
 
-        public IFreezable Withdraw() => this;
+        public IAccountState Withdraw(Action subtractFromBalance)
+        {
+            subtractFromBalance();
+            return this;
+        }
+
+        public IAccountState HolderVerified() => this;
+
+        public IAccountState Close() => new Closed();
     }
 }

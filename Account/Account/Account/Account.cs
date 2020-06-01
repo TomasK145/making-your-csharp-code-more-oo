@@ -6,16 +6,12 @@ namespace Account
     {
         // INFO: dont keep money as Decimal --> introduce special Money class to keep amount and currency together
         public decimal Balance { get; private set; }
-
-        private bool IsVerified { get; set; }
-        private bool IsClosed { get; set; } 
-
         
-        private IFreezable Freezable { get; set; }
+        private IAccountState State { get; set; }
 
         public Account(Action onUnfreeze)
         {
-            this.Freezable = new Active(onUnfreeze);
+            this.State = new NotVerified(onUnfreeze);
         }
 
         // Tests
@@ -26,11 +22,7 @@ namespace Account
         // #8: Deposit 10, Deposit 1 --> OnUnfreeze was not called
         public void Deposit(decimal amount)
         {
-            if (!this.IsVerified)
-                return;
-            this.Freezable = this.Freezable.Deposit();
-            // Deposit money
-            this.Balance += amount;
+            this.State = this.State.Deposit(() => { this.Balance += amount; });           
         }
 
         // Tests
@@ -41,32 +33,23 @@ namespace Account
         // #10: Deposit 10, Verify, Freeze, Withdraw 1 --> IsFrozen == false
         public void Withdraw(decimal amount)
         {
-            if (!this.IsVerified)
-                return;
-            if (!this.IsClosed)
-                return;
-            this.Freezable = this.Freezable.Withdraw();
-            // Withdraw money
-            this.Balance -= amount;
+            this.State = this.State.Withdraw(() => { this.Balance -= amount; });
+            
         }
 
         public void HolderVerified()
         {
-            this.IsVerified = true;
+            this.State = this.State.HolderVerified();
         }
 
         public void Close()
         {
-            this.IsClosed = true;
+            this.State = this.State.Close();
         }
 
         public void Freeze()
         {
-            if (this.IsClosed)
-                return;
-            if (!this.IsVerified)
-                return;
-            this.Freezable = this.Freezable.Freeze();
+            this.State = this.State.Freeze();
         }
 
         //private void ManageUnfreezing()
