@@ -1,0 +1,6 @@
+﻿State pattern:
+- object of the state class represents one state
+- change the object when you want to change the state
+- consequences of the State Pattern:
+	- class doesnt have to represent its state explicitly anymore
+	- class doesnt have to manage state transition logic

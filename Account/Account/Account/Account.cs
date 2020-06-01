@@ -10,13 +10,12 @@ namespace Account
         private bool IsVerified { get; set; }
         private bool IsClosed { get; set; } 
 
-        private Action OnUnfreeze { get; }
-        private Action ManageUnfreezing { get; set; }
+        
+        private IFreezable Freezable { get; set; }
 
         public Account(Action onUnfreeze)
         {
-            this.OnUnfreeze = onUnfreeze;
-            this.ManageUnfreezing = this.StayUnfrozen;
+            this.Freezable = new Active(onUnfreeze);
         }
 
         // Tests
@@ -29,9 +28,7 @@ namespace Account
         {
             if (!this.IsVerified)
                 return;
-
-            this.ManageUnfreezing();
-
+            this.Freezable = this.Freezable.Deposit();
             // Deposit money
             this.Balance += amount;
         }
@@ -48,8 +45,7 @@ namespace Account
                 return;
             if (!this.IsClosed)
                 return;
-            ManageUnfreezing();
-
+            this.Freezable = this.Freezable.Withdraw();
             // Withdraw money
             this.Balance -= amount;
         }
@@ -70,7 +66,7 @@ namespace Account
                 return;
             if (!this.IsVerified)
                 return;
-            this.ManageUnfreezing = this.Unfreeze;
+            this.Freezable = this.Freezable.Freeze();
         }
 
         //private void ManageUnfreezing()
@@ -88,16 +84,5 @@ namespace Account
         //        StayFreezed();
         //    }            
         //}
-
-        private void Unfreeze()
-        {
-            this.OnUnfreeze();
-            this.ManageUnfreezing = this.StayUnfrozen;
-        }
-
-        private void StayUnfrozen()
-        {
-
-        }
     }
 }
