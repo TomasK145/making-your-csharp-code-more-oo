@@ -1,1 +1,47 @@
-﻿
+﻿Important note: Do bot go open the Painters class and start coding it. Design the consuming end first!
+
+By introducing an object which encapsulates a data structure I was able to focus on business rules.
+
+Vyuzitie objektu kt zapuzdruje kolekciu:
+You could take advantage of IEnumerable and LINQ to Objects to simplify code to a certain degree.
+I could say that working with IEnumerable could be the phase of proving the concept.
+Once that is done, you can stop and see.
+If your code is walking through sequences over and over again, then the time might be right to wrap the sequence 
+into a specialized object.
+Then expose the operations you use to perform manually as atomic operation on that collection class.
+The refactor the client side to consume the collection class instead of consuming explicit collections or sequences of objects.
+Net result will be a clean separation of concerns and a client code which is easy to read and understand.
+
+Composite pattern:
+- hides a collection of objects of certain type and exposes the same interface as a single object of the same type
+
+Advice:
+- Do not apply optimizations early.
+- write simple code first then use it
+- Optimaze only if consuming leads to poor performance
+
+Idea:
+- constructor is implementation detail
+- constructor does not take part in public interface
+
+
+Benefits from having a custom collection:
+- the goal is to encapsulate the concept of a collection
+- callers dont have to know how to manipulate objects
+
+Mother class:
+- knows how to create many different objects
+- typically used to simplify unit tests
+
+
+The problem of repeatedly iterating through a sequence:
+- wrap the sequence in a class
+- do not expose general-purpose collection method
+- expose meaningful primitive operations instead
+Client code becomes simpler:
+- Client combines primitive methods and build larger features
+
+Composite pattern:
+- container exposes the same interface as its contained elements
+- construct a special mapping function
+- maps many objects into a single object of the same kind
