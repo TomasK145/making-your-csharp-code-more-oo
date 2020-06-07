@@ -9,9 +9,14 @@ namespace WorkingWithCollections
     {
         private IEnumerable<TPainter> Painters { get; }
 
-        private Func<double, IEnumerable<TPainter>, IPainter> Reduce { get; }
+        public Func<double, IEnumerable<TPainter>, IPainter> Reduce { get; set; }
 
         public bool IsAvailable => this.Painters.Any(p => p.IsAvailable);
+
+        public CompositePainter(IEnumerable<TPainter> painters)
+        {
+            Painters = painters;
+        }
 
         public CompositePainter(IEnumerable<TPainter> painters,
             Func<double, IEnumerable<TPainter>, IPainter> reduce)

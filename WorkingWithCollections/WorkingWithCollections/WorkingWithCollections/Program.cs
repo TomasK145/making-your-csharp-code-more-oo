@@ -7,8 +7,7 @@ namespace WorkingWithCollections
         static void Main(string[] args)
         {
             IEnumerable<ProportionalPainter> painters = new ProportionalPainter[10];
-
-            IPainter painter = CompositePainterFactories.CreateGroup(painters);
+            IPainter painter = CompositePainterFactories.CombineProportional(painters);
         }
     }
 }
