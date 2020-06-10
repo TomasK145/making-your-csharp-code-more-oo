@@ -1,0 +1,12 @@
+﻿- vykonane zmeny su len explicitne , preto je tazsie zaviest bug
+
+Value objects:
+- nemozu byt zmenene po tom ako boli inicializovane
+
+- Je mozne zmenit akykolvek object na value objekt:
+	- to moze byt vykonane tak ze public interface nedovoli editovanie properties po tom ako
+	bol objekt vytvoreny
+		- pr. odstranenim property setterov
+
+- moze byt potrebne zmenit immutable class na proper value classpre dosiahnutie rovnakeho spravania
+	- overridnut Equals metodu (pozor na porovnavanie zdedenych tried )
