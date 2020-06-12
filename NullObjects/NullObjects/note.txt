@@ -1,0 +1,19 @@
+﻿Constructor preconditions:
+- must be satisfied before constructor is invoked
+- otherwise will fail and object will not be created
+
+Postconditions:
+- guarantees made by the class implementation
+- e.g. these property getters will never return null
+
+Null object:
+- an object which exposes a certain interface, but internally it does nothing
+- use it as a substitute instead of null
+- typicky implementovany ako singleton, lebo vsetky Null object jedneho typu su/sa spravaju rovnako 
+
+Special case objects:
+- provide an object which universaly addresses one situation
+- special case object contains no specific information (e.g. User data)
+- unlike Null Objects, they contain some logic
+
+- kod funkcionality je navigovany/vytvarany castou logiky ktora ho bude vyuzivat
