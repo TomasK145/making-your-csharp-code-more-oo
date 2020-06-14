@@ -1,0 +1,4 @@
+﻿Option (Maybe) type:
+- either contains value or contains nothing
+- option is not a wrapper arround null
+
